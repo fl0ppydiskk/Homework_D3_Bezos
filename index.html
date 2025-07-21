@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>D3</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script>
+      // unit in million
+      const bezosCost = 56, bezosWealth = 236000;
+      const averageCost = 0.033, averageWealth = 0.1929;
+      const scaleRadius = d3.scaleSqrt().domain([0, bezosWealth]).range([0, 300]);
+    </script>
+    
+  </head>
+  <body>
+    <h1>How much did Jeff Bezos spend on his marriage compared to average people?</h1>
+    <div id="my-svg-chart"></div>
+    <script>
+      // use the same variables from above in a data array
+      const circleData = [bezosWealth, averageWealth];
+      
+      const myChart = d3
+        .select('#my-svg-chart')
+        .append('svg')
+        .attr('width', 1000)
+        .attr('height', 640)
+      
+      const circles = myChart
+        .selectAll('circle')
+        .data(circleData)
+        .join('circle');
+      
+      const labels = myChart
+        .selectAll('text')
+        .data(circleData)
+        .join('text');
+      
+      circles
+        .attr('cx', (d, i) => 400 + i * 300)
+        .attr('cy', 300)
+        .attr('r', (d) => Math.max(scaleRadius(d), 2))
+        .style('fill', function(d,i) {
+          return i%2 == 0 ? '#ccc' : 'red'
+          })
+      labels
+        .attr('x', (d, i) => 450 + i * 280)
+        .attr('y', 315) // Position unter dem Kreis
+        .attr('text-anchor', 'middle')
+        .style('fill', 'black')
+        .style('font-family', 'Arial, sans-serif')
+        .style('font-weight', (d, i) => i === 0 ? 'bold' : 'normal')
+        .style('font-size', (d, i) => i === 0 ? '40px' : '14px')
+        .text((d, i) => i === 0 ? 'Jeff Bezos' : 'Average (not to scale, would be invisible)');
+      
+    </script>
+  </body>
+</html>
