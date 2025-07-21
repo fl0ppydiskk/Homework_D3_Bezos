@@ -33,6 +33,12 @@
         .selectAll('text')
         .data(circleData)
         .join('text');
+    
+      const amounts = myChart
+        .selectAll('text.amount')
+        .data(circleData)
+        .join('text')
+        .attr('class', 'amount');
       
       circles
         .attr('cx', (d, i) => 400 + i * 300)
@@ -50,6 +56,15 @@
         .style('font-weight', (d, i) => i === 0 ? 'bold' : 'normal')
         .style('font-size', (d, i) => i === 0 ? '40px' : '14px')
         .text((d, i) => i === 0 ? 'Jeff Bezos' : 'Average (not to scale, would be invisible)');
+      
+      amounts
+        .attr('x', (d, i) => 400 + i * 300)
+        .attr('y', 335)
+        .attr('text-anchor', 'middle')
+        .style('fill', 'gray')
+        .style('font-family', 'Arial, sans-serif')
+        .style('font-size', '14px')
+        .text(d => `$${d.toLocaleString()}M`);
       
     </script>
   </body>
